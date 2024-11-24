@@ -24,23 +24,41 @@ The project has been **Dockerized** for easy deployment, and the web interface f
 - [Multi-Agent Interaction](#multi-agent-interaction)
 - [Results](#results)
 
-## Project Overview
+## Project Overview   
+
+ ![image](https://github.com/user-attachments/assets/1bfe8503-490f-4a2d-93d9-8090b97e5c8f)   
 
 This project includes the following key components:
 
 1. **Multi-Agent Atari Game Environments**: The agents are trained to play four Atari games:
+
+    - **Seaquest**
+      
+     ![image](https://github.com/user-attachments/assets/00ddc60a-843e-4453-9f09-747657a51bfa)
+ 
    - **Pong**
-   - **Seaquest**
+     
+     ![image](https://github.com/user-attachments/assets/1bd951f2-9d33-4871-ad73-154afb798229)    
+   
+
    - **Breakout**
+     
+     ![image](https://github.com/user-attachments/assets/9f2490e7-e082-46d9-b206-f2e15fc7b58b)    
+
    - **Space Invaders**
+     
+     ![image](https://github.com/user-attachments/assets/533d002d-3e3f-4de0-b4c7-72d0c9ddbe6d)    
 
-2. **DQN Agent**: A Deep Q-Learning Network (DQN) agent that learns the optimal action-policy for the games through experience replay and epsilon-greedy exploration.
+  
 
-3. **Streamlit Interface**: A real-time simulation interface using Streamlit to render the games for visualization.
 
-4. **Dockerization**: The project is containerized using Docker to facilitate easy deployment and scaling.
+3. **DQN Agent**: A Deep Q-Learning Network (DQN) agent that learns the optimal action-policy for the games through experience replay and epsilon-greedy exploration.
 
-5. **Deployment on EC2**: The application has been successfully deployed on an EC2 instance to allow for real-time game simulation and visualization in the cloud.
+4. **Streamlit Interface**: A real-time simulation interface using Streamlit to render the games for visualization.
+
+5. **Dockerization**: The project is containerized using Docker to facilitate easy deployment and scaling.
+
+6. **Deployment on EC2**: The application has been successfully deployed on an EC2 instance to allow for real-time game simulation and visualization in the cloud.
 
 ## Dependencies
 
@@ -183,13 +201,7 @@ In **Space Invaders**, two agents control separate spaceships to shoot and destr
 
 The agents' performance improves over time as they learn through trial and error. The results are visualized using the Streamlit interface,in the report section where reward/epsode and cumulative reward plots are displayed,  showing the real-time performance of the agents in the selected game.   
 
-Generally:   
-
-- **Pong**: The agents improve over time, learning to track the ball and prevent the opponent from scoring.
-- **Seaquest**: The agents learn to navigate the environment, avoid enemies, and maximize rewards.
-- **Breakout**: The agents coordinate their movements to break bricks and keep the ball in play.
-- **Space Invaders**: The agents work together to eliminate alien invaders while avoiding enemy fire.
-
+![image](https://github.com/user-attachments/assets/cfd67f94-7ff6-4944-bdb7-dfc1d03e3033)   
 
 ---
 
