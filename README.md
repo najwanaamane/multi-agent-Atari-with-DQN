@@ -83,8 +83,8 @@ pip install -r requirements.txt
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/multi-agent-atari-dqn.git
-cd multi-agent-atari-dqn
+git clone https://github.com/najwanaamane/multi-agent-Atari-with-DQN.git
+cd multi-agent-Atari-with-DQN
 ```
 
 2. Install the required dependencies:
@@ -151,7 +151,7 @@ multi-agent-atari-dqn/
 ├── space_invaders.py # Space Invaders game simulation (DQN agent for Space Invaders)
 ├── requirements.txt         # List of project dependencies
 ├── Dockerfile            # Dockerfile for building the Docker image   
-├── docker_comppse.yml        # with volumes for app persistence and logs
+├── docker_compose.yml        # with volumes for app persistence and logs
 └── README.md                # Project documentation
 ```
 
