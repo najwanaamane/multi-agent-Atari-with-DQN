@@ -23,7 +23,6 @@ The project has been **Dockerized** for easy deployment, and the web interface f
 - [Training Process](#training-process)
 - [Multi-Agent Interaction](#multi-agent-interaction)
 - [Results](#results)
-- [License](#license)
 
 ## Project Overview
 
@@ -153,7 +152,7 @@ The agents learn through the following process:
 2. **Experience Replay**: The agent stores experiences (state, action, reward, next_state) in memory.
 3. **Action Selection**: The agent uses an epsilon-greedy strategy to choose actions. With probability `epsilon`, the agent explores random actions, otherwise it exploits the learned Q-values.
 4. **Q-Learning Update**: After each action, the Q-values are updated using the Bellman equation:     
-  ![image](https://github.com/user-attachments/assets/04c766e2-cdec-40f1-9585-b66fc7d386ae)   
+![image](https://github.com/user-attachments/assets/00a0c8d1-8618-46c0-b674-9bd64ecf6565)
 
    where `r_t` is the reward, `γ` is the discount factor, and `Q(s_{t+1}, a)` is the maximum future reward.
 5. **Epsilon Decay**: The exploration rate (`epsilon`) is gradually reduced to encourage more exploitation as training progresses.
