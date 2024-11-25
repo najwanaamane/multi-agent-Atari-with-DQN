@@ -47,14 +47,10 @@ simulations = {
 
 # Streamlit App
 st.title("Multi-Agent Atari Game Simulations 🎮")
-st.write(""" 
-This simulation consists of two agents, both interacting with the Atari environment in a cooperative or competitive manner, using the DQN (Deep Q-Network) algorithm.
+st.write("""          
+The DQN algorithm, as described in the paper **"Playing Atari with Deep Reinforcement Learning"** from **DeepMind Technologies**, is used for training agents to play Atari games by learning directly from pixel inputs.    
+This project extends the original work by introducing multi-agent reinforcement learning (MARL), where multiple agents learn to play the games simultaneously and interact with each other.
 
-The DQN algorithm, as described in the paper **"Playing Atari with Deep Reinforcement Learning"** from **DeepMind Technologies**, is used for training agents to play Atari games by learning directly from pixel inputs. 
-
-Combining Q-learning with deep neural networks, it allows the agent to handle high-dimensional state spaces, such as images.
-
-The two agents in the simulations below work independently or together to navigate the environment, take actions, and learn from their experiences to maximize their rewards.
 """)
 
 # Sidebar for selecting report or simulation
