@@ -15,7 +15,6 @@ The project has been **Dockerized** for easy deployment, and the web interface f
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Dependencies](#dependencies)
 - [Setup Instructions](#setup-instructions)
 - [How to Run](#how-to-run)
 - [Dockerization & EC2 Deployment](#dockerization-and-ec2-deployment)
@@ -60,22 +59,6 @@ This project includes the following key components:
 
 6. **Deployment on EC2**: The application has been successfully deployed on an EC2 instance to allow for real-time game simulation and visualization in the cloud.
 
-## Dependencies
-
-The following dependencies are required to run the code:
-
-- numpy
-- pygame
-- gym
-- tensorflow
-- streamlit
-
-You can install the required dependencies by running the following command:
-
-```bash
-pip install -r requirements.txt
-```
-
 
 
 ## Setup Instructions
@@ -111,32 +94,41 @@ This will open a web interface in your browser where you can watch the agents le
 
 This project has been **Dockerized** to make deployment easier and more efficient. Docker allows for creating an isolated environment, making the application portable across different systems. Additionally, the application is deployed on an **EC2 instance** for cloud-based usage.
 
-### Dockerization
 
-1. To build the Docker image, run the following command in the project directory:
+### **Deploying on EC2 and Accessing Remotely**
 
-```bash
-docker build -t multi-agent-atari-dqn .
-```
+To deploy the application on an **AWS EC2 instance** using Docker, follow these steps:
 
-2. Once the image is built, you can run the Docker container with:
+1. **SSH into EC2 Instance**:
+   - SSH into your AWS EC2 instance where the application will be deployed. You can do this using the following command (replace `<your-ec2-ip>` with the public IP of your EC2 instance):
 
-```bash
-docker run -p 8501:8501 multi-agent-atari-dqn
-```
+     ```bash
+     ssh -i <your-key.pem> ubuntu@<your-ec2-ip>
+     ```
 
-This will run the Streamlit interface inside the Docker container, accessible via `http://localhost:8501`.
+2. **Dockerize the Application**:
+   - Once you’re connected to the EC2 instance, navigate to your project directory and run the following Docker Compose command to build and run your container:
 
-### Deployment on EC2
+     ```bash
+     docker-compose up --build
+     ```
 
-To access this application remotely via a browser interface, open the EC2 instance's public IP address in your browser at port 8501 to access the Streamlit interface.:
+   - This will automatically build the Docker image and start the container, making your Streamlit app accessible on port 8501.
 
+3. **Access the Application Remotely**:
+   - Once the container is running, you can access the Streamlit interface remotely by opening the **EC2 instance’s public IP address** in your browser at port 8501.
 
+     For example:
 
-```bash
-http://<EC2_PUBLIC_IP>:8501
-```
+     ```bash
+     http://<EC2_PUBLIC_IP>:8501
+     ```
 
+   - In our case, the application can be accessed via the following URL:
+
+     [https://13.53.190.102:8501/](https://13.53.190.102:8501/)
+
+This setup allows you to run your Streamlit app in a Docker container on an EC2 instance and access it from anywhere using the EC2 instance's public IP.
 
 ## Project Structure
 
@@ -151,13 +143,13 @@ multi-agent-atari-dqn/
 ├── space_invaders.py # Space Invaders game simulation (DQN agent for Space Invaders)
 ├── requirements.txt         # List of project dependencies
 ├── Dockerfile            # Dockerfile for building the Docker image   
-├── docker_compose.yml        # with volumes for app persistence and logs
+├── docker-compose.yml        # with volumes for app persistence and logs
 └── README.md                # Project documentation
 ```
 
 - **app.py**: Contains the Streamlit interface for the multi-agent Pong simulation.
 - **dqn_agent.py**: Defines the DQN agent class, including the neural network model and training methods.
-- **[game_name]_simulation.py**: Contains the logic for each of the Atari game simulations (e.g., `pong_simulation.py`, `seaquest_simulation.py`, `breakout_simulation.py`, `space_invaders_simulation.py`).
+- **[game_name].py**: Contains the logic for each of the Atari game simulations (e.g., `pong_simulation.py`, `seaquest_simulation.py`, `breakout_simulation.py`, `space_invaders_simulation.py`).
 - **Dockerfile**: A Dockerfile for containerizing the project.   
 - **docker-compose.yml**:with volumes to manage the deployment setup efficiently   
 - **requirements.txt**: A list of dependencies needed to run the project.
