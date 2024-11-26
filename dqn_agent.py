@@ -5,6 +5,8 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import models, layers
 
+np_bool = getattr(np, 'bool', np.bool_)
+
 class DQNAgent:
     def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001):
         self.action_space = action_space

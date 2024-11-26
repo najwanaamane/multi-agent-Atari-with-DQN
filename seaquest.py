@@ -2,6 +2,7 @@ import numpy as np
 import random
 from dqn_agent import DQNAgent  
 
+np_bool = getattr(np, 'bool', np.bool_)
 
 # Define the MultiAgentSeaquestEnv class
 class MultiAgentSeaquestEnv:

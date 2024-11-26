@@ -6,6 +6,8 @@ from gym import spaces
 from dqn_agent import DQNAgent  
 import random
 
+np_bool = getattr(np, 'bool', np.bool_)
+
 # Multi-Agent Pong Environment 
 class MultiAgentPongEnv(gym.Env):
     metadata = {'render.modes': ['human']}

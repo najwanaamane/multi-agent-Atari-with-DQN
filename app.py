@@ -8,6 +8,8 @@ import random
 import matplotlib.pyplot as plt
 import streamlit as st
 
+np_bool = getattr(np, 'bool', np.bool_)
+
 image_folder = "images/"
 
 simulations = {
