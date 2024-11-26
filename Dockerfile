@@ -4,6 +4,9 @@ FROM python:3.9-slim
 # Set the working directory in the container
 WORKDIR /app
 
+RUN pip install --upgrade pip
+
+
 # Copy the requirements file to the container
 COPY requirements.txt /app/
 
