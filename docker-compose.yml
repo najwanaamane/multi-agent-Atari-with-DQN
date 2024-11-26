@@ -4,14 +4,13 @@ services:
   streamlit-app:
     build: .
     ports:
-      - "8501:8501"  # Expose Streamlit app on port 8501
+      - "8501:8501"  # Map container port 8501 to host
     volumes:
-      - .:/app  # Bind mount the entire project root to /app
+      - ./app:/app  # Bind mount for app code (hot-reload enabled)
       - logs:/app/logs  # Named volume for logs
-    working_dir: /app  # Ensure the container starts in the correct directory
     environment:
-      - STREAMLIT_CONFIG=/app/config.toml  # Example environment variable
-    restart: always  # Restart the service if it crashes
+      - STREAMLIT_CONFIG=/app/config.toml  # Example of passing environment variables
+    restart: always  # Restart if stopped
 
 volumes:
   logs:  # Persistent volume for logs
