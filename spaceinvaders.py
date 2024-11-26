@@ -5,7 +5,7 @@ import random
 import numpy as np
 from dqn_agent import DQNAgent  
 
-np_bool = getattr(np, 'bool', np.bool_)
+my_array = np.array([True, False, True], dtype=np.bool_)  # Use np.bool_ instead of np.bool8
 
 class MultiAgentSpaceInvadersEnv:
     def __init__(self):

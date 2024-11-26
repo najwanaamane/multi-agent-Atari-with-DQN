@@ -8,7 +8,7 @@ import random
 import matplotlib.pyplot as plt
 import streamlit as st
 
-np_bool = getattr(np, 'bool', np.bool_)
+my_array = np.array([True, False, True], dtype=np.bool_)  # Use np.bool_ instead of np.bool8
 
 image_folder = "images/"
 

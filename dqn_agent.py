@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import models, layers
 
-np_bool = getattr(np, 'bool', np.bool_)
+my_array = np.array([True, False, True], dtype=np.bool_)  # Use np.bool_ instead of np.bool8
 
 class DQNAgent:
     def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001):
