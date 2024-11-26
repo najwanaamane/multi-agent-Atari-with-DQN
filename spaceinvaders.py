@@ -5,6 +5,8 @@ import random
 import numpy as np
 from dqn_agent import DQNAgent  
 
+np_bool = getattr(np, 'bool', np.bool_)
+
 class MultiAgentSpaceInvadersEnv:
     def __init__(self):
         pygame.init()
