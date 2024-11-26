@@ -6,10 +6,9 @@ services:
     ports:
       - "8501:8501"  # Map container port 8501 to host
     volumes:
-      - ./app:/app  # Bind mount for app code (hot-reload enabled)
-      - logs:/app/logs  # Named volume for logs
+      - .:/app  # Bind the current directory to /app in the container
     environment:
-      - STREAMLIT_CONFIG=/app/config.toml  # Example of passing environment variables
+      - STREAMLIT_CONFIG=/app/config.toml  # Optional: Pass environment variables if needed
     restart: always  # Restart if stopped
 
 volumes:
