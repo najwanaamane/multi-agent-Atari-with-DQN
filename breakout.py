@@ -1,9 +1,7 @@
 import pygame
 import gym
 import numpy as np
-from dqn_agent import DQNAgent  
-
-my_array = np.array([True, False, True], dtype=np.bool_)  # Use np.bool_ instead of np.bool8
+from dqn_agent import DQNAgent  # Import your DQNAgent class
 
 class BreakoutEnv:
     def __init__(self):
@@ -22,78 +20,72 @@ class BreakoutEnv:
         return np.array(state)
 
     def step(self, action):
-        """Take action for both agents in the game environment."""
+        """Take an action in the environment."""
         state, reward, done, truncated, info = self.env.step(action)
-        
-        if done or truncated:
-            self.done = True
-        return np.array(state), reward, self.done, {}
+        self.done = done or truncated
+        return np.array(state), reward, self.done, info
 
     def render(self):
         """Render the game environment."""
         frame = self.env.render()  
-        return frame
+        pygame.surfarray.blit_array(self.screen, frame.swapaxes(0, 1))
+        pygame.display.flip()
 
     def close(self):
         """Close the game environment."""
         self.env.close()
 
-
 # Main simulation script
 def run_simulation():
-    # Create the Breakout environment and two agents (independent environments)
-    env1 = BreakoutEnv() 
-    env2 = BreakoutEnv() 
+    # Create a shared Breakout environment
+    env = BreakoutEnv()
     
-    agent1 = DQNAgent(state_space=(env1.height, env1.width, 3), action_space=env1.env.action_space.n)
-    agent2 = DQNAgent(state_space=(env2.height, env2.width, 3), action_space=env2.env.action_space.n)
+    # Create two agents
+    agent1 = DQNAgent(state_space=(env.height, env.width, 3), action_space=env.env.action_space.n)
+    agent2 = DQNAgent(state_space=(env.height, env.width, 3), action_space=env.env.action_space.n)
 
     episodes = 1000
-    total_reward = 0
+    total_rewards = [0, 0]
+
     for e in range(episodes):
-        state1 = env1.reset()  # Reset environment for agent 1
-        state2 = env2.reset()  # Reset environment for agent 2
-        
-        done1 = done2 = False
-        while not done1 and not done2:
-            # Agent 1 takes action
-            action1 = agent1.act(state1)
-            
-            # Agent 2 takes action
-            action2 = agent2.act(state2)
-            
-            # Take the step for both agents in their respective environments
-            next_state1, reward1, done1, _ = env1.step(action1)
-            next_state2, reward2, done2, _ = env2.step(action2)
-            
-            # Accumulate rewards (you can adjust this as needed)
-            total_reward += reward1 + reward2
-            
-            # Train both agents
-            agent1.remember(state1, action1, reward1, next_state1, done1)
-            agent2.remember(state2, action2, reward2, next_state2, done2)
+        state = env.reset()
+        done = False
+        turn = 0  # Alternate turns between agents
 
-            agent1.train(batch_size=32)
-            agent2.train(batch_size=32)
+        while not done:
+            # Decide which agent's turn it is
+            current_agent = agent1 if turn % 2 == 0 else agent2
 
-            # Move to the next state for both agents
-            state1 = next_state1
-            state2 = next_state2
-            
-            # Render the environments (two different game boards)
-            env1.render()  # Show agent 1's board
-            env2.render()  # Show agent 2's board
+            # Agent takes an action
+            action = current_agent.act(state)
 
+            # Environment responds
+            next_state, reward, done, _ = env.step(action)
+            total_rewards[turn % 2] += reward
+
+            # Train the current agent
+            current_agent.remember(state, action, reward, next_state, done)
+            current_agent.train(batch_size=32)
+
+            # Update the state and turn
+            state = next_state
+            turn += 1
+
+            # Render the environment
+            env.render()
+
+        # Update epsilon for both agents
         agent1.update_epsilon()
         agent2.update_epsilon()
 
+        # Print episode summary
         if e % 100 == 0:
-            print(f"Episode {e}/{episodes}, Total Reward: {total_reward}")
-            total_reward = 0
+            print(f"Episode {e}/{episodes}")
+            print(f"  Agent 1 Total Reward: {total_rewards[0]}")
+            print(f"  Agent 2 Total Reward: {total_rewards[1]}")
+            total_rewards = [0, 0]
 
-    env1.close()  # Close environment for agent 1
-    env2.close()  # Close environment for agent 2
-
+    env.close()
 
 if __name__ == "__main__":
     run_simulation()

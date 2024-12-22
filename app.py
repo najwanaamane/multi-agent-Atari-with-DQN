@@ -17,24 +17,26 @@ simulations = {
         "script": "pong",
         "image": os.path.join(image_folder, "pong.png"),
         "description": """
-            **Pong Simulation**:
-            The two agents take turns controlling paddles to hit a ball back and forth. The goal is to maximize their scores, and they will learn how to position their paddles to return the ball successfully. Cooperative or competitive depending on the setup (e.g., can be cooperative if they are both trying to avoid losing).
+            **Pong Simulation**:   
+            Competitive Approach: Each player aims to score points, penalizing the other with every point scored. It is a zero-sum game where direct competition prevails, with each player trying to outperform the other.
         """
     },
     "Breakout": {
         "script": "breakout",
         "image": os.path.join(image_folder, "breakout.png"),
         "description": """
-            **Breakout Simulation**:
-            The agents control paddles to break bricks. The agents need to learn to aim and position the paddle optimally. Here, the behavior could be competitive if the agents try to break different bricks or cooperative if they share a common goal of breaking all bricks.
+            **Breakout Simulation**:   
+            The agents control paddles to break bricks. The agents need to learn to aim and position the paddle optimally.   
+            Indirect Cooperative Approach (Turn Alternation): Although the agents take turns without explicit coordination, their actions influence the same game state, making them indirectly cooperative. For example, one agent's failure can make the task harder for the other.
         """
     },
     "Seaquest": {
         "script": "seaquest",
         "image": os.path.join(image_folder, "seaquest.png"),
         "description": """
-            **Seaquest Simulation**:
-            The agents must collect items (e.g., fish) while avoiding enemies (e.g., sharks). The competitive aspect may come into play if the agents try to collect items faster or outpace each other in capturing more items.
+            **Seaquest Simulation**:   
+            The agents must collect items (e.g., fish) while avoiding enemies (e.g., sharks).   
+              (Joint Action Reward): Here, agents receive positive rewards only when they act together, such as moving in the same direction. Negative rewards are given for misaligned actions, emphasizing the need for cooperation to achieve the common goal.
         """
     },
     "Space Invaders": {
@@ -42,7 +44,8 @@ simulations = {
         "image": os.path.join(image_folder, "spaceinvaders.png"),
         "description": """
             **Space Invaders**:
-            The agents control a ship to destroy waves of invaders. The competitive behavior may arise when agents try to outperform each other by achieving a higher score.
+            The agents control a ship to destroy waves of invaders.   
+              (Majority Vote for Action): The actions of the agents are decided through a majority vote. If the majority chooses a direction, all agents follow that decision. Cooperation is crucial to eliminate enemies and avoid failure, with rewards based on this cooperation to succeed in reaching the objective.
         """
     },
 }
@@ -59,7 +62,7 @@ This project extends the original work by introducing multi-agent reinforcement 
 report_option = st.sidebar.selectbox("Select Option", ["Simulation", "Report"])
 
 if report_option == "Simulation":
-    # Create a single row for the simulations
+    # Create a row for the simulations with multiple columns
     cols = st.columns(len(simulations))
 
     # Add images and clickable buttons for each simulation in one line
@@ -155,7 +158,7 @@ if report_option == "Simulation":
 if report_option == "Report":
     st.sidebar.write("### Simulation Report")
     st.write("""This section provides detailed reports for the simulation results.""")
-
+    
     # Sidebar to select which simulation's report to view
     selected_simulation_report = st.sidebar.selectbox("Select Simulation for Report", list(simulations.keys()))
 
