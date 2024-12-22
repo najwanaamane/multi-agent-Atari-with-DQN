@@ -6,6 +6,7 @@ WORKDIR /app
 
 RUN pip install --upgrade pip
 
+
 # Copy the requirements file to the container
 COPY requirements.txt /app/
 
@@ -15,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code
 COPY . /app/
 
-# Expose port 80 for hosting the app
-EXPOSE 80
+# Expose the port Streamlit will run on
+EXPOSE 8501
 
-# Command to run the Streamlit app on port 80
-CMD ["streamlit", "run", "app.py", "--server.port=80", "--server.address=0.0.0.0"]
+# Command to run the Streamlit app
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
