@@ -5,7 +5,7 @@ from tensorflow.keras import models, layers
 from collections import deque
 
 class DQNAgent:
-    def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001, memory_size=2000):
+    def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001, memory_size=2000, stack_size=4):
         self.action_space = action_space
         self.state_space = state_space  
         self.epsilon = epsilon
@@ -15,7 +15,11 @@ class DQNAgent:
         self.learning_rate = learning_rate
         self.memory = deque(maxlen=memory_size)  # Memory buffer
         self.batch_size = 32  # Default batch size for training
+        self.stack_size = stack_size  # Number of frames to stack
         self.model = self.build_model()
+
+        # To store the last 'stack_size' frames
+        self.last_n_frames = deque(maxlen=self.stack_size)
 
     def build_model(self):
         """Builds a simple Convolutional Neural Network for Q-value prediction."""
@@ -29,16 +33,21 @@ class DQNAgent:
         return model
 
     def act(self, state):
-        """Chooses an action based on epsilon-greedy strategy."""
+        """Chooses an action based on epsilon-greedy strategy using stacked frames."""
+        self.last_n_frames.append(state)  # Add the new frame to the stack
+        stacked_state = np.stack(self.last_n_frames, axis=-1)  # Stack the frames along the last axis (channels)
+
         if np.random.rand() <= self.epsilon:
             return random.choice(range(self.action_space))  # Explore
-        state = np.expand_dims(state, axis=0)  # Add batch dimension
-        q_values = self.model.predict(state)
+        stacked_state = np.expand_dims(stacked_state, axis=0)  # Add batch dimension
+        q_values = self.model.predict(stacked_state)
         return np.argmax(q_values[0])  # Exploit
 
     def remember(self, state, action, reward, next_state, done):
-        """Stores the agent's experiences for experience replay."""
-        self.memory.append((state, action, reward, next_state, done))  # Add experience to memory buffer
+        """Stores the agent's experiences for experience replay with frame stacking."""
+        self.last_n_frames.append(state)  # Add the new frame to the stack
+        stacked_state = np.stack(self.last_n_frames, axis=-1)  # Stack the frames
+        self.memory.append((stacked_state, action, reward, next_state, done))  # Store the experience in memory
 
     def train(self, batch_size=None):
         """Train the model based on experiences (Experience Replay)."""
@@ -55,7 +64,7 @@ class DQNAgent:
 
         for state, action, reward, next_state, done in minibatch:
             # Ensure state and next_state have the correct shape: (height, width, channels)
-            state = np.squeeze(state)  # Remove extra dimensions: (210, 160, 3)
+            state = np.squeeze(state)  # Remove extra dimensions: (height, width, stacked_channels)
             next_state = np.squeeze(next_state)  # Same for next state
             print(f"State shape before training: {state.shape}")  # Debugging line
 
