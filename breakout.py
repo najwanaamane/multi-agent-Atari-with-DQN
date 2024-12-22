@@ -44,7 +44,7 @@ def run_simulation():
     agent1 = DQNAgent(state_space=(env.height, env.width, 3), action_space=env.env.action_space.n)
     agent2 = DQNAgent(state_space=(env.height, env.width, 3), action_space=env.env.action_space.n)
 
-    episodes = 1000
+    episodes = 10
     total_rewards = [0, 0]
 
     for e in range(episodes):
