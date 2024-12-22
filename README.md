@@ -170,7 +170,7 @@ The agents learn through the following process:
 
 ---
 
-**Multi-Agent Interaction**
+## Multi-Agent Interaction
 
 In this multi-agent setup, multiple agents share the environment, and their actions influence each other. This introduces a level of complexity as the agents must not only learn optimal policies for their individual tasks but also account for the behavior of other agents. Below are examples of how the agents interact in each game, along with the associated approaches for cooperation and competition:
 
@@ -217,6 +217,13 @@ The actions of the agents are decided through a majority vote. If the majority c
 --- 
 
 
+**Game Interaction Strategies**  
+| **Game**           | **Approach**          | **Reason**                                                                 |
+|---------------------|-----------------------|-----------------------------------------------------------------------------|
+| **Space Invaders**  | Centralized           | Majority vote controls actions, and rewards are shared for eliminating enemies. |
+| **Seaquest**        | Decentralized         | Independent agent actions, but joint rewards depend on cooperative alignment. |
+| **Breakout**        | Centralized            | Paddle control and rewards are shared, emphasizing unified decision-making.  |
+| **Pong**            | Decentralized         | Competitive agents act independently to maximize their own scores.          |
 
 ## Results
 
