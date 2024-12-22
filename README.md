@@ -167,25 +167,54 @@ The agents learn through the following process:
    where `r_t` is the reward, `γ` is the discount factor, and `Q(s_{t+1}, a)` is the maximum future reward.
 5. **Epsilon Decay**: The exploration rate (`epsilon`) is gradually reduced to encourage more exploitation as training progresses.
 
-## Multi-Agent Interaction
 
-In this multi-agent setup, multiple agents share the environment, and their actions influence each other. This introduces a level of complexity as the agents must not only learn optimal policies for their individual tasks but also account for the behavior of other agents. Below are examples of how the agents interact in each game:
+---
 
-### Pong
+**Multi-Agent Interaction**
 
-In the **multi-agent Pong** simulation, two agents are playing against each other. The agents act as opponents, and their goal is to hit the ball back and forth, avoiding letting the ball pass by them. The agents must learn not only to track the ball but also to anticipate their opponent's movements. The interaction between agents involves competitive play where each agent's success depends on the other agent's actions.
+In this multi-agent setup, multiple agents share the environment, and their actions influence each other. This introduces a level of complexity as the agents must not only learn optimal policies for their individual tasks but also account for the behavior of other agents. Below are examples of how the agents interact in each game, along with the associated approaches for cooperation and competition:
 
-### Seaquest
+---
 
-In **Seaquest**, two agents cooperate in a shared environment where they navigate the ocean, avoid enemies, and collect divers. The agents must work together to maximize their rewards by avoiding the same threats and collecting as many divers as possible.
+**Pong**
 
-### Breakout
+In the multi-agent Pong simulation, two agents are playing against each other. The agents act as opponents, and their goal is to hit the ball back and forth, avoiding letting the ball pass by them. The agents must learn not only to track the ball but also to anticipate their opponent's movements. The interaction between agents involves competitive play where each agent's success depends on the other agent's actions.
 
-In **Breakout**, two agents control paddles at the bottom of the screen, trying to bounce the ball to break bricks. In this multi-agent setup, each agent controls one paddle, and they must work together to prevent the ball from falling off the screen while breaking bricks.
+**Competitive Approach:**
 
-### Space Invaders
+Each player aims to score points, penalizing the other with every point scored. It is a zero-sum game where direct competition prevails, with each player trying to outperform the other.
 
-In **Space Invaders**, two agents control separate spaceships to shoot and destroy rows of alien invaders. The agents must avoid enemy fire and work together to clear all invaders.
+---
+
+**Seaquest**
+
+In Seaquest, two agents cooperate in a shared environment where they navigate the ocean, avoid enemies, and collect divers. The agents must work together to maximize their rewards by avoiding the same threats and collecting as many divers as possible.
+
+**Joint Action Reward Approach:**
+
+Here, agents receive positive rewards only when they act together, such as moving in the same direction. Negative rewards are given for misaligned actions, emphasizing the need for cooperation to achieve the common goal.
+
+---
+
+**Breakout**
+
+In Breakout, two agents control paddles at the bottom of the screen, trying to bounce the ball to break bricks. In this multi-agent setup, each agent controls one paddle, and they must work together to prevent the ball from falling off the screen while breaking bricks.
+
+**Indirect Cooperative Approach:**
+
+Although the agents take turns without explicit coordination, their actions influence the same game state, making them indirectly cooperative. For example, one agent’s failure can make the task harder for the other.
+
+---
+
+**Space Invaders**
+
+In Space Invaders, two agents control separate spaceships to shoot and destroy rows of alien invaders. The agents must avoid enemy fire and work together to clear all invaders.
+
+**Majority Vote for Action Approach:**
+
+The actions of the agents are decided through a majority vote. If the majority chooses a direction, all agents follow that decision. Cooperation is crucial to eliminate enemies and avoid failure, with rewards based on this cooperation to succeed in reaching the objective.
+
+--- 
 
 
 
@@ -193,7 +222,7 @@ In **Space Invaders**, two agents control separate spaceships to shoot and destr
 
 The agents' performance improves over time as they learn through trial and error. The results are visualized using the Streamlit interface,in the report section where reward/epsode and cumulative reward plots are displayed,  showing the real-time performance of the agents in the selected game.   
 
-![image](https://github.com/user-attachments/assets/cfd67f94-7ff6-4944-bdb7-dfc1d03e3033)   
+![image](https://github.com/user-attachments/assets/8e341812-abf5-479c-afe7-5c45271f2b91)
 
 ---
 
