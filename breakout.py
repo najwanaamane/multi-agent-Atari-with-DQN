@@ -79,7 +79,7 @@ def run_simulation():
         agent2.update_epsilon()
 
         # Print episode summary
-        if e % 100 == 0:
+        if e % 10 == 0:
             print(f"Episode {e}/{episodes}")
             print(f"  Agent 1 Total Reward: {total_rewards[0]}")
             print(f"  Agent 2 Total Reward: {total_rewards[1]}")
