@@ -175,7 +175,7 @@ def run_simulation():
     env = SpaceInvadersEnv(num_agents=num_agents)
     agents = [DQNAgent(action_space=4, state_space=(env.height, env.width, 3)) for _ in range(num_agents)]
 
-    episodes = 1000
+    episodes = 10
     for e in range(episodes):
         env.reset()
         done = False
