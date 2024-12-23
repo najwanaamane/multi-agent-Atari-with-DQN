@@ -5,7 +5,7 @@ from tensorflow.keras import models, layers
 from collections import deque
 
 class DQNAgent:
-    def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001, memory_size=2000, stack_size=4):
+    def __init__(self, action_space, state_space, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, learning_rate=0.001, memory_size=2000, frame_stack=4):
         self.action_space = action_space
         self.state_space = state_space  
         self.epsilon = epsilon
@@ -15,11 +15,8 @@ class DQNAgent:
         self.learning_rate = learning_rate
         self.memory = deque(maxlen=memory_size)  # Memory buffer
         self.batch_size = 32  # Default batch size for training
-        self.stack_size = stack_size  # Number of frames to stack
+        self.frame_stack = frame_stack  # Number of frames to stack (4 in this case)
         self.model = self.build_model()
-
-        # To store the last 'stack_size' frames
-        self.last_n_frames = deque(maxlen=self.stack_size)
 
     def build_model(self):
         """Builds a simple Convolutional Neural Network for Q-value prediction."""
@@ -33,21 +30,16 @@ class DQNAgent:
         return model
 
     def act(self, state):
-        """Chooses an action based on epsilon-greedy strategy using stacked frames."""
-        self.last_n_frames.append(state)  # Add the new frame to the stack
-        stacked_state = np.stack(self.last_n_frames, axis=-1)  # Stack the frames along the last axis (channels)
-
+        """Chooses an action based on epsilon-greedy strategy."""
         if np.random.rand() <= self.epsilon:
             return random.choice(range(self.action_space))  # Explore
-        stacked_state = np.expand_dims(stacked_state, axis=0)  # Add batch dimension
-        q_values = self.model.predict(stacked_state)
+        state = np.expand_dims(state, axis=0)  # Add batch dimension
+        q_values = self.model.predict(state)
         return np.argmax(q_values[0])  # Exploit
 
     def remember(self, state, action, reward, next_state, done):
-        """Stores the agent's experiences for experience replay with frame stacking."""
-        self.last_n_frames.append(state)  # Add the new frame to the stack
-        stacked_state = np.stack(self.last_n_frames, axis=-1)  # Stack the frames
-        self.memory.append((stacked_state, action, reward, next_state, done))  # Store the experience in memory
+        """Stores the agent's experiences for experience replay."""
+        self.memory.append((state, action, reward, next_state, done))  # Add experience to memory buffer
 
     def train(self, batch_size=None):
         """Train the model based on experiences (Experience Replay)."""
@@ -64,7 +56,7 @@ class DQNAgent:
 
         for state, action, reward, next_state, done in minibatch:
             # Ensure state and next_state have the correct shape: (height, width, channels)
-            state = np.squeeze(state)  # Remove extra dimensions: (height, width, stacked_channels)
+            state = np.squeeze(state)  # Remove extra dimensions
             next_state = np.squeeze(next_state)  # Same for next state
             print(f"State shape before training: {state.shape}")  # Debugging line
 
@@ -86,3 +78,19 @@ class DQNAgent:
         """Decays epsilon after each episode to reduce exploration."""
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
+
+    def stack_frames(self, state, frame_stack=None):
+        """Stacks the most recent `frame_stack` frames to create the state."""
+        if frame_stack is None:
+            frame_stack = self.frame_stack
+        # Add the current state to the deque and maintain the stack
+        if len(self.memory) < frame_stack:
+            state_stack = [state] * frame_stack
+        else:
+            state_stack = [frame[0] for frame in list(self.memory)[-frame_stack:]]  # Get the last `frame_stack` frames
+        return np.concatenate(state_stack, axis=-1)  # Stack the frames along the channel axis
+
+# Example initialization:
+state_shape = (210, 160, 3)  # Example state size (height, width, channels)
+action_space = 4  # Number of actions
+agent = DQNAgent(action_space=action_space, state_space=(210, 160, 12))  # 4 stacked frames
